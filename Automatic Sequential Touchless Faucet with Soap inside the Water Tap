@@ -1,0 +1,47 @@
+#define Valve_SoapDispenser 2
+#define Valve_WaterTap 3
+#define Green_LED 4
+#define Yellow_LED 5
+#define Red_LED 6
+#define Buzz_he 9
+#define sensor_SoapDispenser 7
+#define Sensor_WaterTap 8
+void setup(){
+pinMode(sensor_SoapDispenser,INPUT);
+pinMode(Sensor_WaterTap,INPUT);
+pinMode(Valve_SoapDispenser,OUTPUT);
+pinMode(Valve_WaterTap,OUTPUT);
+pinMode(Green_LED,OUTPUT);
+pinMode(Red_LED,OUTPUT);
+pinMode(Yellow_LED,OUTPUT);
+pinMode(Buzz_he,OUTPUT);
+
+}
+
+void loop(){
+
+while(sensor_SoapDispenser!= 1); // Wait for someone to take the soap from dispenser
+digitalWrite(Red_LED, 1); //turn on the red led
+digitalWrite(Buzz_he,1);//Buzzer on 
+digitalWrite(Valve_SoapDispenser,1); //provide soap
+delay(1000); //let the soap to flow for 1 second
+digitalWrite(Buzz_he,0);//off buzzer
+digitalWrite(Valve_SoapDispenser,0); //stop the flow of soap
+delay(1000); //wait for one second
+digitalWrite(Red_LED, 0); //turn off the red led
+digitalWrite(Yellow_LED, 1); //turn on the yellow LED
+digitalWrite(Buzz_he,1);
+digitalWrite(Valve_WaterTap, 1); //turn on the fauset
+delay(5000); //wait for 5 seconds so that water flows for 5 seconds to dilute the soap
+digitalWrite(Valve_WaterTap, 0); //turn off the fauset
+digitalWrite(Buzz_he,0);//turn off buzzer
+delay(20000); //wait for 20 seconds to rub the hands
+digitalWrite(Yellow_LED, 0); //turn off the yellow led
+digitalWrite(Green_LED, 1); //turnon the green LED
+digitalWrite(Buzz_he,1); //turn on buzzer
+digitalWrite(Valve_WaterTap, 1); //let the water flow
+while(Sensor_WaterTap != 0); //wait for the hands to be pulled off
+digitalWrite(Valve_WaterTap, 0); //turnoff the water flow
+digitalWrite(Green_LED, 0); //turnoff the green LED
+digitalWrite(Buzz_he,0);//turn off the buzzer
+}
