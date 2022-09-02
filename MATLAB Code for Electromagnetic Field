@@ -1,0 +1,148 @@
+clc
+clear all
+ selection = inputdlg('Enter one of the following numbers to select type of problem: 1: electric field intensity;  2: electric field density');
+    choice = str2double(selection);
+if (choice == 1)
+    
+    in_rad = inputdlg('Enter radius of inner conductor in millimeters:');
+    inner_radius = str2double(in_rad);
+    out_rad = inputdlg('Enter radius of outter conductor in millimeters:');
+    outer_radius = str2double(out_rad);
+if (outer_radius < inner_radius)
+    disp('Outter radius must be larger than inner radius!')
+else
+     
+    epsilon = 8854e-9;
+    varying_radius = 0;
+   array1 = zeros(1,outer_radius+10);
+    array2 = zeros(1,outer_radius+10);
+ 
+ 
+    ps = inputdlg('Enter value of the surface charge density (C/m^2)');
+    Ps = str2double(ps);
+    for j = 1:outer_radius+10
+    varying_radius = varying_radius + 1;
+if (varying_radius > inner_radius) && (varying_radius < outer_radius)
+    E = ((inner_radius*Ps)/(1000*epsilon*varying_radius));
+elseif any(varying_radius <= inner_radius)
+    E = 0;
+else 
+    E = 0;
+end
+    array1(1,j) = E;
+    array2 = array2 + array1;
+    end
+    ro = linspace(0,outer_radius+10,outer_radius+10)
+    figure;
+    plot(ro,array1);
+    xlabel('Radius (mm)')
+    ylabel('Strength of E (N/C)')
+    title('Variation of E with Radius in co-axial cable')
+    grid on 
+    fi = linspace(0,2*pi,outer_radius+10);
+    [R0,Fi] = meshgrid (ro, fi);
+    Electric_Field = meshgrid(array2);
+    [X,Y,Z] = pol2cart(Fi,R0,Electric_Field);
+    figure;
+    surf(X,Y,Z);
+    
+    xlabel('X-axis :  Length (mm)')
+    ylabel('Y-axis :  Length (mm)')
+    zlabel('Z-axis :  Strength of E (N/C)')
+    figure;
+    title('3D plot of electric field intensity along coaxial cable')
+        angle = 0:0.1:6.4;
+    xx = zeros(1,64);
+    yy = zeros(1,64);
+    u = zeros(1,64);
+    v = zeros(1,64);
+for i=1:64
+    yy(i)=inner_radius*sin(angle(i));
+    xx(i)=inner_radius*cos(angle(i));    
+    u(i)=(outer_radius-inner_radius)*cos(angle(i));
+    v(i)=(outer_radius-inner_radius)*sin(angle(i));
+end
+    quiver(xx,yy,u,v,'AutoScale','off');
+    hold on
+    [e,f]=pol2cart(angle,inner_radius);
+    plot(e,f);
+    hold on
+    [g,h]=pol2cart(angle,outer_radius);
+    plot(g,h);
+   
+    xlabel('X-axis :  Length (mm)');
+    ylabel('Y-axis :  Length (mm)');
+    title('Direction of E in a co-axial cable')
+     
+end
+end
+if (choice == 2)
+    
+    in_rad = inputdlg('Enter radius of inner conductor in millimeters:');
+    inner_radius = str2double(in_rad);
+    out_rad = inputdlg('Enter radius of outter conductor in millimeters:');
+    outer_radius = str2double(out_rad);
+if (outer_radius < inner_radius)
+    disp('Outter radius must be larger than inner radius!')
+else
+     
+    epsilon = 8.854e-12;
+    varying_radius = 0;
+    array1 = zeros(1,outer_radius+10);
+    array2 = zeros(1,outer_radius+10);
+ 
+ 
+    ps = inputdlg('Enter value of the surface charge density (C/m^2)');
+    Ps = str2double(ps);
+    for j = 1:outer_radius+10
+    varying_radius = varying_radius + 1;
+if (varying_radius > inner_radius) && (varying_radius < outer_radius)
+    E = ((inner_radius*Ps)/(1000*varying_radius));
+elseif any(varying_radius <= inner_radius)
+    E = 0;
+else 
+    E = 0;
+end
+    array1(1,j) = E;
+    array2 = array2 + array1;
+    end
+    ro = linspace(0,outer_radius+10,outer_radius+10);
+    figure;
+    plot(ro,array2);
+    xlabel('Radius (mm)')
+    ylabel('electric field density (N/C)')
+    title('Variation of D with Radius in co-axial cable')
+    fi = linspace(0,2*pi,outer_radius+10);
+    [R0,Fi] = meshgrid (ro, fi);
+    Electric_FieldD = meshgrid(array2);
+    [X,Y,Z] = pol2cart(Fi,R0,Electric_FieldD);
+    figure;
+    surf(X,Y,Z);
+    xlabel('X-axis :  Length (mm)')
+    ylabel('Y-axis :  Length (mm)')
+    zlabel('Z-axis :  Strength of D (N/C)')
+    title('3D plot of D in coaxial cable')
+    figure;
+           angle = 0:0.1:6.4;
+    xx = zeros(1,64);
+    yy = zeros(1,64);
+    u = zeros(1,64);
+    v = zeros(1,64);
+for i=1:64
+    yy(i)=inner_radius*sin(angle(i));
+    xx(i)=inner_radius*cos(angle(i));    
+    u(i)=(outer_radius-inner_radius)*cos(angle(i));
+    v(i)=(outer_radius-inner_radius)*sin(angle(i));
+end
+    quiver(xx,yy,u,v,'AutoScale','off');
+    hold on
+    [e,f]=pol2cart(angle,inner_radius);
+    plot(e,f);
+    hold on
+    [g,h]=pol2cart(angle,outer_radius);
+    plot(g,h);
+    xlabel('X-axis :  Length (mm)');
+    ylabel('Y-axis :  Length (mm)');
+    title('Direction of D in a co-axial cable')
+end
+end
