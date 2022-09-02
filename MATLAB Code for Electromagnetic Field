@@ -1,3 +1,5 @@
+%% Plot of equipotential surface and electric field intensity on Matlab of a coaxial cable%%
+
 clc
 clear all
  selection = inputdlg('Enter one of the following numbers to select type of problem: 1: electric field intensity;  2: electric field density');
