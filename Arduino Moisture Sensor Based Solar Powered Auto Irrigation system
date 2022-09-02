@@ -1,0 +1,28 @@
+#define threshold 400
+// Sensor pins
+//#define sensorPower 7
+//#define sensorPin A0
+//#define control 2
+
+void setup() {
+  pinMode(2, OUTPUT); 
+  digitalWrite(2, 1);
+  digitalWrite(3,1);
+  Serial.begin(9600);
+}
+
+void loop() {
+  //get the reading from the function below and print it
+  int moisture = analogRead(A0);
+  Serial.print("Analog Output: ");
+  Serial.println(moisture);
+  if(moisture < threshold){
+    digitalWrite(2, 1);
+    Serial.println("Status: Soil is perfect");
+  }else
+  {
+    digitalWrite(2,0);
+    Serial.println("Status: Soil is too dry");
+  }
+  delay(500);
+}
