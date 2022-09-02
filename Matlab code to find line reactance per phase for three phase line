@@ -1,0 +1,32 @@
+function DA= Dsx(p,a)
+DA=sqrt(p*a);
+end
+function D=Dxy(a1,a2,b1,b2)
+D=(a1*a2*b1*b2)^(1/4);
+end
+function R = Rx(b,c)
+R = sqrt(b*c);
+end
+area=0.1537;
+r=sqrt(area/pi)/12;
+rp=r*0.78;
+
+a1b1 = 25; b1c1 = 25; a2c1=25 ; a2b2=25 ; b2c2 = 25;
+a1b2=100 ; b1c2 = 100;
+a2b1 =50 ; b2c1=50 ; a1c1=50 ; a2c2 = 50;
+a1c2 = 125;
+a1a2= 75; b1b2 =75; c1c2 = 75;
+Dab = Dxy(a1b1, a1b2, a2b1, a2b2);
+Dbc = Dxy(b1c1, b1c2, b2c1, b2c2);
+Dac = Dxy(a1c1, a1c2, a2c1, a2c2);
+GMD = (Dab*Dbc*Dac)^(1/3);
+Dsa = Dsx(rp, a1a2);
+Dsb = Dsx(rp, b1b2);
+Dsc = Dsx(rp, c1c2);
+GMRL = (Dsa*Dsb*Dsc)^(1/3);
+L = (0.2*log(GMD/GMRL))*300;
+Ra = Rx(r, a1a2);
+Rb = Rx(r, b1b2);
+Rc = Rx(r, c1c2);
+GMRC = (Ra*Rb*Rc)^(1/3);
+C = (0.0556/(log(GMD/GMRC)))*300;
